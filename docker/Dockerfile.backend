@@ -1,0 +1,30 @@
+# docker/Dockerfile.backend
+FROM node:20-alpine AS base
+
+WORKDIR /app
+
+# Install dependencies
+FROM base AS deps
+COPY package.json package-lock.json* ./
+COPY apps/backend/package.json apps/backend/package-lock.json* ./apps/backend/
+RUN npm ci
+
+# Build TypeScript
+FROM base AS builder
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+WORKDIR /app/apps/backend
+RUN npm run build
+
+# Production image
+FROM base AS runner
+WORKDIR /app
+ENV NODE_ENV production
+
+COPY --from=builder /app/apps/backend/dist ./dist
+COPY --from=deps /app/node_modules ./node_modules
+COPY apps/backend/package.json ./
+
+EXPOSE 3001
+
+CMD ["node", "dist/server.js"]

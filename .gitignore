@@ -1,0 +1,46 @@
+# Dependencies
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+# Next.js
+.next/
+out/
+build
+dist
+
+# Production
+*.log
+logs
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+*.tsbuildinfo
+
+# Local env files
+.env*.local
+
+# Vercel
+.vercel
+
+# Turbo
+.turbo
+
+# Docker
+docker/data/
+docker/volumes/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
